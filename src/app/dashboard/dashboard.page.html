@@ -10,9 +10,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let message of messages$ | async">
-      {{message.message}}
-    </ion-item>
-  </ion-list>
+  <ion-button  class="ion-margin-top ion-margin-bottom"  shape="round" expand="full"
+  color="primary" (click)="test()">test</ion-button>
 </ion-content>

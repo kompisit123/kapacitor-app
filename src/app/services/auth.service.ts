@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+
 import { HttpClient } from '@angular/common/http';
-import { Auth, signOut, signInWithCustomToken } from '@angular/fire/auth';
 import { from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import detectEthereumProvider from '@metamask/detect-provider';
+
+import { Storage } from '@ionic/storage-angular'
 
 interface NonceResponse {
   nonce: string;
@@ -17,12 +19,17 @@ interface VerifyResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient, private auth: Auth) {}
 
-  public signOut() {
-    return signOut(this.auth);
-  }
+  isLoggedIn = false;
+  token:any;
 
+
+  constructor(
+    private http: HttpClient,
+    private storage: Storage
+     ) {}
+  
+   
   public signInWithMetaMask() {
     let ethereum: any;
 
@@ -34,13 +41,14 @@ export class AuthService {
         }
 
         ethereum = provider;
+        console.log(ethereum.selectedAddress) //ได้รายละเอียดต่างๆ อันนี้เป็น user address
 
         return await ethereum.request({ method: 'eth_requestAccounts' });
       }),
       // Step 2: Retrieve the current nonce for the requested address
-      switchMap(() =>
+      switchMap(() => 
         this.http.post<NonceResponse>(
-          'https://us-central1-ionic-angular-web3.cloudfunctions.net/getNonceToSign',
+          'http://localhost:3010/getNonceToSign',
           {
             address: ethereum.selectedAddress,
           }
@@ -48,6 +56,7 @@ export class AuthService {
       ),
       // Step 3: Get the user to sign the nonce with their private key
       switchMap(
+        
         async (response) =>
           await ethereum.request({
             method: 'personal_sign',
@@ -56,18 +65,21 @@ export class AuthService {
               ethereum.selectedAddress,
             ],
           })
+          
       ),
       // Step 4: If the signature is valid, retrieve a custom auth token for Firebase
       switchMap((sig) =>
+        
         this.http.post<VerifyResponse>(
-          'https://us-central1-ionic-angular-web3.cloudfunctions.net/verifySignedMessage',
+          'http://localhost:3010/verifysign',
           { address: ethereum.selectedAddress, signature: sig }
         )
       ),
       // Step 5: Use the auth token to auth with Firebase
       switchMap(
         async (response) =>
-          await signInWithCustomToken(this.auth, response.token)
+          //console.log(response.token)
+          await this.storage.set('token', response.token)
       )
     );
   }
@@ -78,4 +90,29 @@ export class AuthService {
       .map((c) => c.charCodeAt(0).toString(16).padStart(2, '0'))
       .join('');
   }
+
+  getToken() {
+    return this.storage.get('token').then(
+      data => {
+        this.token = data;
+        if(this.token != null) {
+          this.isLoggedIn=true;
+        } else {
+          this.isLoggedIn=false;
+        }
+      },
+      error => {
+        this.token = null;
+        this.isLoggedIn=false;
+      }
+    );
+  }
+
+  signOut() {
+    console.log('Logout')
+        this.storage.remove('token');
+        this.isLoggedIn = false;
+        delete this.token;   
+      }
+
 }
