@@ -42,13 +42,14 @@ export class AuthService {
 
         ethereum = provider;
         console.log(ethereum.selectedAddress) //ได้รายละเอียดต่างๆ อันนี้เป็น user address
+        await this.storage.set('address', ethereum.selectedAddress)
 
         return await ethereum.request({ method: 'eth_requestAccounts' });
       }),
       // Step 2: Retrieve the current nonce for the requested address
       switchMap(() => 
         this.http.post<NonceResponse>(
-          'http://localhost:3010/getNonceToSign',
+          'https://enx.bannaisoi.com/getNonceToSign',
           {
             address: ethereum.selectedAddress,
           }
@@ -71,7 +72,7 @@ export class AuthService {
       switchMap((sig) =>
         
         this.http.post<VerifyResponse>(
-          'http://localhost:3010/verifysign',
+          'https://enx.bannaisoi.com/verifysign',
           { address: ethereum.selectedAddress, signature: sig }
         )
       ),

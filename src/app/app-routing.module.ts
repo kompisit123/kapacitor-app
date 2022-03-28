@@ -18,6 +18,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardPageModule),canActivate: [AuthGuard]
   },
+  {
+    path: 'device',
+    loadChildren: () => import('./device/device.module').then( m => m.DevicePageModule),canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

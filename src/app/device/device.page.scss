@@ -1,0 +1,202 @@
+ion-header {
+
+    ion-toolbar, ion-item {
+       --background: #F6F6F6;
+      background: #F6F6F6;
+      padding: 0 10px;
+    }
+  
+    ion-toolbar {
+      .bordered {
+        --border-radius: 10px;
+        --box-shadow: 5px 5px 10px #d1d1d1, -5px -5px 10px #FFFFFF;
+      }
+    }
+  
+    ion-item {
+      h3 {
+        font-weight: 700;
+        font-size: 14px;
+      }
+  
+      p {
+        font-weight: 500;
+        font-size: 14px;
+      }
+  
+      ion-avatar {
+        --border-radius: 40%;
+      }
+    }
+  
+  }
+  
+  #progress-circle{
+      margin-top: -20px;
+      margin-bottom: 10px;
+      transform: rotate(-90deg);
+    }
+    .timer-text {
+      transform: rotate(90deg);
+      transform-origin: center;
+      font-size:26px;
+      text-anchor: middle;
+      font-weight: 600;
+      fill: #8E44AD ;
+    }
+    
+  
+    .header-tabs {
+      padding-left: 37px !important;
+      padding-bottom: 30px !important;
+  
+      ion-button {
+          --padding-start: 15px;
+          --padding-end: 15px;
+       
+      }
+  
+      .tab-button {
+          --box-shadow: none;
+          color: var(--ion-color-grayprimary) !important;
+      }
+  }
+  
+  
+  .progress-banner {
+      background: var(--ion-color-primary);
+      padding-top: 12px;
+      padding-bottom: 12px;
+      border-radius: 20px;
+      margin: 0px;
+      margin-bottom: 16px;
+  
+      ion-progress-bar {
+          height: 15px;
+          border-radius: 30px;
+          --buffer-background: var(--ion-color-primary-dark);
+          --progress-background: var(--ion-color-secondary);
+          border: none;
+      }
+  
+      ion-item {
+          --background: var(--ion-color-primary);
+  
+          ion-label {
+              color: white;
+              font-size: 18px;
+              font-weight: bold;
+          }
+  
+          ion-note {
+              color: white;
+              font-size: 14px;
+              font-family: "montserrat";
+          }
+      }
+  }
+  
+  .chart {
+      background: var(--ion-color-primary);
+      padding-top: 12px;
+      padding-bottom: 12px;
+      border-radius: 20px;
+  
+      ion-item {
+          --background: var(--ion-color-primary);
+          ion-label {
+              color: white;
+              font-size: 28px;
+              display: contents;
+          }
+  
+          .unit{
+             color: var(--ion-color-grayprimary);
+             font-size: 20px;
+             margin-left: 15px;
+          }
+      }
+  }
+  
+  
+  .startstop {
+    justify-content: center;
+    position: relative;
+    top: 10px;
+   
+  }
+  
+  ion-content {
+     --background: #8A56AC;;
+   
+     .slides {
+       background: #F6F6F6 ;
+       margin-left: -16px;
+       margin-right: -16px;
+       margin-top: -18px;
+       padding: 10px 0px 0px 0px;
+       border-radius: 0 0 28px 28px;
+     }
+   
+     ion-card {
+       width: 100%;
+       box-shadow: none;
+       border-radius: 14px;
+       padding: 5px 5px 5px 5px;
+       background: rgba(255,255,255,.8);
+       .main {
+         width: 60px;
+         height: 60px;
+         border-radius: 50px;
+         background: #FFFFFF;
+         box-shadow:  7px 7px 20px #dbdfe2, 
+                -7px -7px 20px #ffffff;
+               
+         display: flex;
+         align-items: center;
+         justify-content: center;
+   
+         img {
+           width: 30px;
+         } 
+       }
+   
+       .files {
+           padding-top: 14px;
+       }
+   
+     }
+   
+     .container {
+      
+       padding: 6px 20px;
+       color: #FFFFFF;
+   
+       ion-item {
+         --background: #8A56AC;
+         padding: 0;
+         margin: 14px 0;
+         --border-radius: 14px;
+         color: #FFFFFF;
+         font-weight: 600;
+   
+         ion-label {
+           padding: 6px 0;
+           h4 {
+             font-weight: 400;
+             font-size: 14px;
+           }
+           h6 {
+             color:#FFFFFF;
+           }
+         }
+   
+       }
+   
+       h2 {
+         padding-bottom: 8px;
+       }
+   
+     }
+   
+   }

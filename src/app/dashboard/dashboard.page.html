@@ -10,6 +10,28 @@
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-item>
+      <ion-label>{{address}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Remain Time : {{remaintime}}  {{texttime}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Point : {{point}}</ion-label>
+    </ion-item>
+    
+  </ion-card>
+
+     <!-- Shows our camera stream -->
+     <video #video [hidden]="!scanActive" width="100%" class="video ion-no-border" ></video>
+     <!-- Used to render the camera stream images -->
+     <canvas #canvas hidden></canvas>
+
   <ion-button  class="ion-margin-top ion-margin-bottom"  shape="round" expand="full"
-  color="primary" (click)="test()">test</ion-button>
+  color="primary" (click)="startScan()">QR Scan</ion-button>
+  <!-- <ion-button  class="ion-margin-top ion-margin-bottom"  shape="round" expand="full"
+  color="primary" (click)="stopStream()">stop</ion-button>
+  <ion-button  class="ion-margin-top ion-margin-bottom"  shape="round" expand="full"
+  color="primary" (click)="test()">token</ion-button> -->
 </ion-content>
