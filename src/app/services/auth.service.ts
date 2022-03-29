@@ -7,6 +7,8 @@ import detectEthereumProvider from '@metamask/detect-provider';
 
 import { Storage } from '@ionic/storage-angular'
 
+import { AlertService } from '../services/alert.service';
+ 
 interface NonceResponse {
   nonce: string;
 }
@@ -26,7 +28,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private storage: Storage
+    private storage: Storage,
+    private alert: AlertService
      ) {}
   
    
@@ -37,6 +40,7 @@ export class AuthService {
       // Step 1: Request (limited) access to users ethereum account
       switchMap(async (provider) => {
         if (!provider) {
+          this.alert.usingAlert("Use in Metamask only");
           throw new Error('Please install MetaMask');
         }
 

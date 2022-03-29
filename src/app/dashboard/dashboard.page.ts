@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
 import jsQR from 'jsqr';
 import stopMediaStream from 'stop-media-stream';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,6 +39,7 @@ export class DashboardPage {
     private http: HttpClient,
     private loadingController: LoadingController,
     private router: Router,
+    private alert: AlertService
   ) {}
 
   ngOnInit(){
@@ -99,7 +101,7 @@ export class DashboardPage {
   async startScan() {
     // Not working on iOS standalone mode!
  
-    this.stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false})
+    this.stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: {facingMode: 'environment'} })
    .then(mediaStream => {return mediaStream; })
 
     this.videoElement.srcObject = this.stream;
@@ -179,7 +181,7 @@ export class DashboardPage {
     this.http.post('https://enx.bannaisoi.com/requestaccess',body,{ headers: headers })
     .subscribe((res: any) => {
       console.log(res.message)
-      // if(res.message == 'Out of service'){this.outServiceAlert()}
+       if(res.message == 'Out of service'){this.alert.usingAlert("Out of service")}
        if(res.message == 'Expire 2 min'){ 
          //this.accesskey = res.accesskey
          this.storage.set('accesskey', res.accesskey)
@@ -191,7 +193,7 @@ export class DashboardPage {
        }
     },
     (error :any ) => { console.log(error)
-      //this.outServiceAlert()
+      this.alert.usingAlert("Wrong QR Code")
    }
      )}
 
