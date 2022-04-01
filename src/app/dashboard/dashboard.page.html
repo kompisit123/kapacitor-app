@@ -1,37 +1,75 @@
-<ion-header>
-  <ion-toolbar color="dark">
-    <ion-title>Dashboard</ion-title>
-    <ion-buttons slot="start">
-      <ion-button (click)="logout()"
-        ><ion-icon slot="icon-only" name="power-outline"></ion-icon
-      ></ion-button>
+
+<ion-header lines="none" class="ion-no-border">
+  <!-- <ion-toolbar lines="none">    
+    <ion-buttons lines="none" slot="end">
+      <ion-button  lines="none" [routerLink]="['/statview']" class="bordered" fill="solid" color="light">
+        <ion-icon  lines="none"slot="icon-only" name="stats-chart" ></ion-icon>
+      </ion-button>
     </ion-buttons>
-  </ion-toolbar>
+  </ion-toolbar> -->
+
+
+    <ion-avatar slot="start" (click)="logout()">
+      <!-- <ion-img src="/assets/img/user.jpg"></ion-img> -->
+      <ion-icon size="large" color="primary" name="lock-open"></ion-icon>
+    </ion-avatar>
+      <ion-label>
+        <p>{{himassage}}</p>
+      </ion-label>     
+
 </ion-header>
 
-<ion-content>
-  <ion-card>
-    <ion-item>
-      <ion-label>{{address}}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Remain Time : {{remaintime}}  {{texttime}}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Point : {{point}}</ion-label>
-    </ion-item>
-    
+<ion-content class="ion-padding">
+ 
+  <div class="ion-padding" fullscreen >
+    <ion-avatar slot="start" (click)="logout()">
+      <!-- <ion-img src="/assets/img/user.jpg"></ion-img> -->
+      <ion-icon size="large" color="primary" name="lock-open"></ion-icon>
+    </ion-avatar>
+      <ion-label>
+        <p>{{himassage}}</p>
+      </ion-label>     
+    <ion-card class="progress-banner ion-no-border">
+      <ion-item lines="none">
+        <ion-label><h2>Address</h2>{{address}}</ion-label> 
+      </ion-item>
+      <ion-item lines="none">
+       <ion-icon name="timer" color="light" class="ion-padding-end"></ion-icon>
+        <ion-label>Energy Time</ion-label>
+        <ion-chip slot="end">{{texttime}}</ion-chip>
+      </ion-item>  
+      <ion-item lines="none">
+        <ion-icon name="bag-handle" color="light" class="ion-padding-end"></ion-icon>
+        <ion-label>Point</ion-label>
+        <ion-chip slot="end">{{point}}</ion-chip>
+      </ion-item>  
   </ion-card>
+    
+  
+    <ion-card-content>
+      <ion-card-subtitle class="ion-text-right">scan and start</ion-card-subtitle>
+      <ion-progress-bar value=0.2 color="custom"></ion-progress-bar>
+    </ion-card-content>  
+  </div>
 
+    <div class="ion-padding">
      <!-- Shows our camera stream -->
-     <video #video [hidden]="!scanActive" width="100%" class="video ion-no-border" ></video>
+     <video #video [hidden]="!scanActive" width="100%" class="scan" ></video>
      <!-- Used to render the camera stream images -->
      <canvas #canvas hidden></canvas>
+    </div>
 
-  <ion-button  class="ion-margin-top ion-margin-bottom"  shape="round" expand="full"
-  color="primary" (click)="startScan()">QR Scan</ion-button>
-  <!-- <ion-button  class="ion-margin-top ion-margin-bottom"  shape="round" expand="full"
-  color="primary" (click)="stopStream()">stop</ion-button>
-  <ion-button  class="ion-margin-top ion-margin-bottom"  shape="round" expand="full"
-  color="primary" (click)="test()">token</ion-button> -->
+     <div class="ion-padding" fullscreen >
+      <ion-button  class="ion-margin-top ion-margin-bottom"  shape="round"  expand="full"
+      color="primary" (click)="startScan()">
+          <!-- <ion-img src="/assets/img/qr.svg"></ion-img> -->
+      <ion-icon size="large" name="qr-code-outline"></ion-icon> 
+      &nbsp;&nbsp;QR SCAN
+      </ion-button>
+    </div>
+    <ion-item lines="none">
+      <ion-toggle (ionChange)="themeChange($event)" checked={{darktheme}} slot="end"></ion-toggle>
+    </ion-item>
+
+
 </ion-content>

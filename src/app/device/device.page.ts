@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import {Subscription, timer} from 'rxjs'; 
 import { map } from 'rxjs/operators'; 
 
+import { ThemeService } from '../services/theme.service';
+
 const circleR = 80;
 const circleDasharray = 2*Math.PI*circleR;
 
@@ -18,6 +20,7 @@ const circleDasharray = 2*Math.PI*circleR;
 })
 export class DevicePage implements OnInit {
   isLoading = false;
+  darktheme: boolean;
 
   timerSubscription: Subscription; 
   time: BehaviorSubject<string>= new BehaviorSubject('00:00');
@@ -27,7 +30,7 @@ export class DevicePage implements OnInit {
   interval;
   token:any;
   date: any;
-  timediff :number;
+ 
 
   circleR = circleR;
   circleDasharray = circleDasharray;
@@ -47,7 +50,7 @@ export class DevicePage implements OnInit {
     private http: HttpClient,
     private storage: Storage,
     private loadingController: LoadingController,
-    private alertController: AlertController,
+    private theme: ThemeService,
     private router: Router,
   ) { }
 
@@ -59,10 +62,10 @@ export class DevicePage implements OnInit {
       });
 
     //Fetch data every 10000ms
-    this.timerSubscription = timer(0, 30000).pipe( 
+    this.timerSubscription = timer(0, 10000).pipe( 
       map(() => { 
        //this.loadData(); // load data contains the http request 
-       console.log("Hey PowerEEx")
+       //console.log("Hey PowerEEx")
        this.dataCus(this.address)
       }) 
     ).subscribe(); 
@@ -85,19 +88,32 @@ export class DevicePage implements OnInit {
     }).then(()=>{
       if (this.energize == '1'){
         console.log("continour count ")
-        this.startTimer(this.timestart)
+        this.timerex = this.timestart*60
+      
+        this.updateClockTimeValue();
+        this.interval = setInterval(() => { this.updateClockTimeValue(); }, 1000);
+        
       } else {
         console.log("Ready")
       }
     });
   
-   
-  
     this.storage.get('deviceId').then((result) => {
         this.deviceId = result
         console.log("device Id: "+result)
         });
-  
+
+    this.storage.get('theme').then(
+          data => {
+            this.darktheme = data;
+            console.log('theme'+ this.darktheme)
+          },
+          error => {
+            this.darktheme = false;
+          }
+        ).then(()=>{
+          this.theme.onClick(this.darktheme)
+        })
     }
     
   fetchdata() {  //show clock time
@@ -119,13 +135,14 @@ export class DevicePage implements OnInit {
   
       const text =hours+':'+minutes+':'+seconds
       this.time.next(text); 
+
     }
   
     async present(time) {
       this.isLoading = true;
       return await this.loadingController.create({
          duration: time,
-        spinner: null,
+         spinner: null,
          message: '<img src="/assets/img/barload.svg">',//Your Gif File Path
          cssClass: 'custom-loading',//linkกับ global.scss
          translucent: true,
@@ -148,40 +165,12 @@ export class DevicePage implements OnInit {
       return await this.loadingController.dismiss()
     }
   
-    async presentAlert() {
-      const alert = await this.alertController.create({
-        cssClass: 'simple-alert',
-        header: 'STOP!',
-        message: 'Press OK button when you want cut off the power supply or press Cancle to continue the power',
-        mode: 'md',
-        buttons: [{
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'cancel',
-          handler: (blah) => {
-            console.log('Confirm Cancel: Notthing');
-          }
-        }, {
-          text: 'Okay',
-          cssClass: 'ok',
-          handler: () => {
-            console.log('Confirm Okay');
-            this.present(2000);
-            clearInterval(this.interval);
-           // this.state = 'stop';
-          }
-        }]
-      });
-  
-      await alert.present();
-    }
-  
   
     async startTimer(duration: number){ //เริ่มนับถอยหลัง พร้อมกับสั่งเปิดไฟ
       this.energize = '1';
-      this.timerex = duration*60;
-      this.updateClockTimeValue();
-      this.interval= setInterval( ()=>{ this.updateClockTimeValue();}, 1000);
+      //this.timerex = duration*60;
+      this.updateTimeValue();
+      this.interval= setInterval( ()=>{ this.updateTimeValue();}, 1000);
     }
   
   
@@ -221,6 +210,7 @@ export class DevicePage implements OnInit {
     updateClockTimeValue(){
   
       let value = this.timerex
+      //let value = 65
       let hours: any = Math.floor(value / 3600);
       let minutes: any = Math.floor((value % 3600) / 60);
         hours = String('00' + hours).slice(-2);
@@ -234,7 +224,6 @@ export class DevicePage implements OnInit {
       --this.timerex;
       if (this.timerex<0){
         clearInterval(this.interval);
-       // this.upremaintoSR(); //ส่งค่าเวลาไปเก็บในหน่วยความจำด้วย
       }
   
      }
@@ -253,7 +242,7 @@ export class DevicePage implements OnInit {
       this.http.post('https://enx.bannaisoi.com/requestaccess',body,{ headers: headers })
       .subscribe((res: any) => {
         console.log(res.message)
-        // if(res.message == 'Out of service'){this.outServiceAlert()}
+      
          if(res.message == 'Expire 2 min'){ 
            this.accesskey = res.accesskey
            this.storage.set('accesskey', res.accesskey)
@@ -296,7 +285,10 @@ export class DevicePage implements OnInit {
       };
       
       console.log("OK ON")
-      this.startTimer(this.timestart)
+    
+      this.updateClockTimeValue();
+      this.interval = setInterval(() => { this.updateClockTimeValue(); }, 1000);
+      
       fetch("https://enx.bannaisoi.com/sentcommand", this.requestOptions)
         .then(response => response.text())
         .then( result => console.log(result)
@@ -361,8 +353,9 @@ export class DevicePage implements OnInit {
                
       this.http.post('https://chain.kapacitor.me/custormerdata',body,{ headers: headers })
       .subscribe((res: any) => {
-        console.log(res)
-      this.clockstart(Number(res.remaintime));
+      //console.log(res.remaintime)
+    
+       this.timerex = Number(res.remaintime)*60
        this.storage.set('remaintime',res.remaintime)
       
       },
@@ -374,9 +367,13 @@ export class DevicePage implements OnInit {
       )    
     }
        
-    
-     
+    themeChange(event:any){
+      console.log(event.detail.checked)
+      this.storage.set('theme',event.detail.checked);
+      this.theme.onClick(event.detail.checked)
+    }
+
     ngOnDestroy(): void { 
       this.timerSubscription.unsubscribe(); 
-    } 
+    }   
 }

@@ -7,7 +7,9 @@ import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
 import jsQR from 'jsqr';
 import stopMediaStream from 'stop-media-stream';
+
 import { AlertService } from '../services/alert.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +21,7 @@ export class DashboardPage {
   texttime:string;
   remaintime :number;
   point: number
+  darktheme: boolean
 
   scanstate = false;
   scanActive = true;
@@ -39,7 +42,8 @@ export class DashboardPage {
     private http: HttpClient,
     private loadingController: LoadingController,
     private router: Router,
-    private alert: AlertService
+    private alert: AlertService,
+    private theme: ThemeService,
   ) {}
 
   ngOnInit(){
@@ -52,6 +56,18 @@ export class DashboardPage {
       }
     ).then(()=>{
       this.getcusdata()
+    })
+
+    this.storage.get('theme').then(
+      data => {
+        this.darktheme = data;
+        console.log('theme'+ this.darktheme)
+      },
+      error => {
+        this.darktheme = false;
+      }
+    ).then(()=>{
+      this.theme.onClick(this.darktheme)
     })
   }
  
@@ -173,16 +189,13 @@ export class DashboardPage {
                }
      let token = await this.storage.get('token')
      let headers = new HttpHeaders({
-                 'Authorization': token
-                 
+                 'Authorization': token 
                 });
              
    console.log(body)
     this.http.post('https://enx.bannaisoi.com/requestaccess',body,{ headers: headers })
     .subscribe((res: any) => {
       console.log(res.message)
-       if(res.message == 'Out of service'){this.alert.usingAlert("Out of service")}
-       if(res.message == 'Expire 2 min'){ 
          //this.accesskey = res.accesskey
          this.storage.set('accesskey', res.accesskey)
          console.log(res.accesskey)
@@ -190,16 +203,21 @@ export class DashboardPage {
            this.storage.set('energize',res.energize )
            this.router.navigateByUrl('device')
            }
-       }
+       
     },
-    (error :any ) => { console.log(error)
-      this.alert.usingAlert("Wrong QR Code")
-   }
+    (error :any ) => { 
+      console.log(error.error)
+      if(error.error == 'Invalid deviceId'){
+        return  this.alert.usingAlert("Wrong QR Code")
+      }
+      this.alert.usingAlert(error.error.message)
+        }
      )}
 
 
   async logout() {
-    await this.authService.signOut();
+    stopMediaStream(this.stream);
+    this.authService.signOut();
     this.navCtrl.navigateBack('/home');
   }
 
@@ -208,4 +226,10 @@ export class DashboardPage {
      console.log(aaaa)
      
    }
+
+   themeChange(event:any){
+    console.log(event.detail.checked)
+    this.storage.set('theme',event.detail.checked);
+    this.theme.onClick(event.detail.checked)
+  }
 }

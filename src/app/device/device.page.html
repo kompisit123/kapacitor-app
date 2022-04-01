@@ -1,10 +1,14 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="start"> <ion-back-button defaultHref="dashboard"></ion-back-button> </ion-buttons>
+    <ion-buttons slot="start"> 
+      <ion-back-button defaultHref="dashboard"></ion-back-button> 
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding" fullscreen>
+
+ 
 
   <div class="slides ion-margin-bottom">
   <ion-row class="ion-justify-content-center">
@@ -15,15 +19,15 @@
     viewBox="0 0 200 200"
     >
     <linearGradient id="linearColors1" x1="0" y1="0" x2="1" y2="1" >
-        <stop offset="0%" stop-color="#AC9BE2"></stop>
-        <stop offset="100%" stop-color="#ffa7b4"></stop>
+        <stop offset="0%" stop-color="#7c3aed"></stop>
+        <stop offset="100%" stop-color="#ffaa21"></stop>
     </linearGradient>
     <circle
       cx="50%"
       cy="50%"
       [attr.r]="circleR"
       fill="none"
-      stroke="#f3f3f3"
+      stroke="#c41a1a"
       stroke-width="12"
     />
   <circle
@@ -43,12 +47,15 @@
 </ion-row>
 </div>
 
-<div class="container">
-    <ion-row class="startstop">
-      <ion-button *ngIf="energize==='0'" size="medium" shape="round" class="ion-margin-bottom ion-margin-top" color="tertiary"  expand="full" (click)="textcount()">Start</ion-button>
-      <ion-button  *ngIf="energize==='1'" size="medium" shape="round" class="ion-margin-bottom ion-margin-top" color="tertiary"  expand="full" (click)="requestAccess()">Stop</ion-button>
-    </ion-row>
+<div class="ion-padding" >
+   
+      <ion-button *ngIf="energize==='0'" size="medium" shape="round" class="ion-margin-bottom ion-margin-top"  expand="full" (click)="textcount()">Start</ion-button>
+      <ion-button  *ngIf="energize==='1'" size="medium" shape="round" class="ion-margin-bottom ion-margin-top"   expand="full" (click)="requestAccess()">Stop</ion-button>
+
 </div>
 
+<ion-item lines="none">
+  <ion-toggle (ionChange)="themeChange($event)" checked={{darktheme}} slot="end"></ion-toggle>
+</ion-item>
 
 </ion-content> 

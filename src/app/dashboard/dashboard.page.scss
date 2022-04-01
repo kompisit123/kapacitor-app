@@ -1,0 +1,35 @@
+.progress-banner {
+    //background: #ebdef0;
+    background: #7c3aed;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-radius: 20px;
+    margin: 0px;
+    margin-bottom: 16px;
+ 
+    ion-item {
+        --background: #7c3aed;
+ 
+        ion-label {
+           // color: rgb(70, 66, 66);
+           color: white;
+            font-size: 14px;
+           // font-weight: bold;
+           h2{
+                font-weight: 600;
+           }
+        }
+ 
+        ion-chip {
+            //color: rgb(70, 66, 66);
+            background: #581c87;
+            color: #FFFFFF;
+            font-size: 14px;
+            //font-family: "montserrat";
+        }
+    }
+ }
+ .scan {
+    border-radius: 20px;
+
+ }
