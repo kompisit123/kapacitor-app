@@ -1,0 +1,26 @@
+
+<ion-content class="ion-padding">
+
+
+  <div class="ion-padding">
+   <!-- Shows our camera stream -->
+   <video #video [hidden]="!scanActive" width="100%" class="scan" ></video>
+   <!-- Used to render the camera stream images -->
+   <canvas #canvas hidden></canvas>
+  </div>
+
+</ion-content>
+<ion-footer style="background-color: black;">
+<div class="ion-padding" fullscreen >
+
+<ion-button  class="ion-margin-top ion-margin-bottom"  shape="round"  expand="full"
+color="primary" (click)="startScan()">
+
+<ion-icon size="large" name="qr-code-outline"></ion-icon> 
+&nbsp;&nbsp;QR SCAN
+</ion-button>
+</div>
+</ion-footer>
+
+
+

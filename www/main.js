@@ -33,41 +33,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AppRoutingModule": () => (/* binding */ AppRoutingModule)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ 4762);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 7716);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ 9895);
-/* harmony import */ var _guard_auth_guard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./guard/auth.guard */ 5826);
-
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 4762);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 7716);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ 9895);
 
 
 
 const routes = [
     {
-        path: 'home',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_home_home_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./home/home.module */ 3467)).then((m) => m.HomePageModule),
-    },
-    {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'qrscan',
         pathMatch: 'full',
     },
     {
-        path: 'dashboard',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_dashboard_dashboard_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./dashboard/dashboard.module */ 4814)).then((m) => m.DashboardPageModule), canActivate: [_guard_auth_guard__WEBPACK_IMPORTED_MODULE_0__.AuthGuard]
-    },
-    {
-        path: 'device',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_device_device_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./device/device.module */ 3620)).then(m => m.DevicePageModule), canActivate: [_guard_auth_guard__WEBPACK_IMPORTED_MODULE_0__.AuthGuard]
+        path: 'qrscan',
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_qrscan_qrscan_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./qrscan/qrscan.module */ 5409)).then(m => m.QrscanPageModule)
     },
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
-AppRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.NgModule)({
+AppRoutingModule = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.NgModule)({
         imports: [
-            _angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule.forRoot(routes, { preloadingStrategy: _angular_router__WEBPACK_IMPORTED_MODULE_3__.PreloadAllModules }),
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__.RouterModule.forRoot(routes, { preloadingStrategy: _angular_router__WEBPACK_IMPORTED_MODULE_2__.PreloadAllModules }),
         ],
-        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule],
+        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__.RouterModule],
     })
 ], AppRoutingModule);
 
@@ -172,223 +162,6 @@ AppModule = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent],
     })
 ], AppModule);
-
-
-
-/***/ }),
-
-/***/ 5826:
-/*!*************************************!*\
-  !*** ./src/app/guard/auth.guard.ts ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AuthGuard": () => (/* binding */ AuthGuard)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 4762);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 7716);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ 9895);
-/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/auth.service */ 7556);
-
-
-
-
-let AuthGuard = class AuthGuard {
-    constructor(router, authService) {
-        this.router = router;
-        this.authService = authService;
-    }
-    canActivate(next, state) {
-        return this.authService.getToken().then(() => {
-            const currentUser = this.authService.isLoggedIn;
-            if (currentUser) {
-                // authorised so return true
-                return true;
-            }
-            // not logged in so redirect to login page with the return url
-            //this.router.navigate(['landing']);
-            this.router.navigate(['home']);
-            return false;
-        });
-    }
-};
-AuthGuard.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__.Router },
-    { type: _services_auth_service__WEBPACK_IMPORTED_MODULE_0__.AuthService }
-];
-AuthGuard = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Injectable)({
-        providedIn: 'root'
-    })
-], AuthGuard);
-
-
-
-/***/ }),
-
-/***/ 5970:
-/*!*******************************************!*\
-  !*** ./src/app/services/alert.service.ts ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AlertService": () => (/* binding */ AlertService)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 4762);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 7716);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ionic/angular */ 476);
-
-
-
-let AlertService = class AlertService {
-    constructor(alertController) {
-        this.alertController = alertController;
-    }
-    usingAlert(_message) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__awaiter)(this, void 0, void 0, function* () {
-            const alert = yield this.alertController.create({
-                cssClass: 'kanit-alert',
-                header: 'Kapacitor',
-                message: _message,
-                mode: 'md',
-                buttons: [{
-                        text: 'OK',
-                        cssClass: 'ok',
-                        handler: () => {
-                            console.log('Confirm Okay');
-                        }
-                    }]
-            });
-            yield alert.present();
-        });
-    }
-};
-AlertService.ctorParameters = () => [
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_1__.AlertController }
-];
-AlertService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
-        providedIn: 'root'
-    })
-], AlertService);
-
-
-
-/***/ }),
-
-/***/ 7556:
-/*!******************************************!*\
-  !*** ./src/app/services/auth.service.ts ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AuthService": () => (/* binding */ AuthService)
-/* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 4762);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 7716);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ 1841);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 9412);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ 3190);
-/* harmony import */ var _metamask_detect_provider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @metamask/detect-provider */ 3917);
-/* harmony import */ var _metamask_detect_provider__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_metamask_detect_provider__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ionic/storage-angular */ 1628);
-/* harmony import */ var _services_alert_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/alert.service */ 5970);
-
-
-
-
-
-
-
-
-let AuthService = class AuthService {
-    constructor(http, storage, alert) {
-        this.http = http;
-        this.storage = storage;
-        this.alert = alert;
-        this.isLoggedIn = false;
-    }
-    signInWithMetaMask() {
-        let ethereum;
-        return (0,rxjs__WEBPACK_IMPORTED_MODULE_2__.from)(_metamask_detect_provider__WEBPACK_IMPORTED_MODULE_0___default()()).pipe(
-        // Step 1: Request (limited) access to users ethereum account
-        (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.switchMap)((provider) => (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
-            if (!provider) {
-                this.alert.usingAlert("Use in Metamask only");
-                throw new Error('Please install MetaMask');
-            }
-            ethereum = provider;
-            console.log(ethereum.selectedAddress); //ได้รายละเอียดต่างๆ อันนี้เป็น user address
-            yield this.storage.set('address', ethereum.selectedAddress);
-            return yield ethereum.request({ method: 'eth_requestAccounts' });
-        })), 
-        // Step 2: Retrieve the current nonce for the requested address
-        (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.switchMap)(() => this.http.post('https://enx.bannaisoi.com/getNonceToSign', {
-            address: ethereum.selectedAddress,
-        })), 
-        // Step 3: Get the user to sign the nonce with their private key
-        (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.switchMap)((response) => (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
-            return yield ethereum.request({
-                method: 'personal_sign',
-                params: [
-                    `0x${this.toHex(response.nonce)}`,
-                    ethereum.selectedAddress,
-                ],
-            });
-        })), 
-        // Step 4: If the signature is valid, retrieve a custom auth token for Firebase
-        (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.switchMap)((sig) => this.http.post('https://enx.bannaisoi.com/verifysign', { address: ethereum.selectedAddress, signature: sig })), 
-        // Step 5: Use the auth token to auth with Firebase
-        (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.switchMap)((response) => (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () { 
-        //console.log(response.token)
-        return yield this.storage.set('token', response.token); })));
-    }
-    toHex(stringToConvert) {
-        return stringToConvert
-            .split('')
-            .map((c) => c.charCodeAt(0).toString(16).padStart(2, '0'))
-            .join('');
-    }
-    getToken() {
-        return this.storage.get('token').then(data => {
-            this.token = data;
-            if (this.token != null) {
-                this.isLoggedIn = true;
-            }
-            else {
-                this.isLoggedIn = false;
-            }
-        }, error => {
-            this.token = null;
-            this.isLoggedIn = false;
-        });
-    }
-    signOut() {
-        console.log('Logout');
-        this.storage.remove('token');
-        this.isLoggedIn = false;
-        delete this.token;
-    }
-};
-AuthService.ctorParameters = () => [
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_5__.HttpClient },
-    { type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_6__.Storage },
-    { type: _services_alert_service__WEBPACK_IMPORTED_MODULE_1__.AlertService }
-];
-AuthService = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Injectable)({
-        providedIn: 'root',
-    })
-], AuthService);
 
 
 

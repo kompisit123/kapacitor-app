@@ -29,6 +29,8 @@
     "@ionic/storage-angular": "^3.0.6",
     "@metamask/detect-provider": "^1.2.0",
     "@metamask/eth-sig-util": "^4.0.0",
+    "@swimlane/ngx-datatable": "^20.0.0",
+    "chart.js": "^2.9.3",
     "jsqr": "^1.4.0",
     "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",
